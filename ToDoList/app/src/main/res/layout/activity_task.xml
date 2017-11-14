@@ -55,7 +55,8 @@
         android:text="completed"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/DateView" />
+        app:layout_constraintTop_toBottomOf="@+id/DateView"
+        android:onClick="checkBoxchange"/>
 
     <Button
         android:id="@+id/button"

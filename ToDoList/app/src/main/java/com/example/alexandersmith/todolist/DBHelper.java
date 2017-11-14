@@ -76,6 +76,17 @@ public class DBHelper extends SQLiteOpenHelper {
         db.delete(TASKS_TABLE_NAME, selection, values);
     }
 
+    public boolean updateCompleted(Integer id, Boolean status){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selection = " id = ?";
+        String[] values = {id.toString()};
+        ContentValues newValues = new ContentValues();
+        newValues.put(TASKS_COLUMN_COMPLETED, status);
+        db.update(TASKS_TABLE_NAME, newValues, selection, values);
+        return true;
+    }
+
+
 
 
 }

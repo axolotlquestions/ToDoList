@@ -19,6 +19,7 @@ public class TaskActivity extends AppCompatActivity {
     CheckBox CompletedBox;
     Button deleteButton;
     Bundle extras;
+    Boolean completedcheck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,26 @@ public class TaskActivity extends AppCompatActivity {
         Date date = new Date (timestamp);
         return new SimpleDateFormat("dd-MM-yyyy").format(date);
     }
+
+    public void getCompletedCheck(View checkBox){
+        if (CompletedBox.isChecked()){
+            completedcheck = true;
+        }
+        else completedcheck = false;
+    }
+
+    public void checkBoxchange(View checkbox) {
+        int id = extras.getInt("id");
+        getCompletedCheck(CompletedBox);
+        DBHelper dbHelper = new DBHelper(this);
+        dbHelper.updateCompleted(id, completedcheck);
+        Intent intent = new Intent(this, ListActivity.class);
+        startActivity(intent);
+    }
+
+
+
+
 
 
 }
