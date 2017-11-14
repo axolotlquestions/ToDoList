@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 
 import java.text.ParseException;
@@ -38,5 +39,16 @@ public class ListActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void getTask(View listItem) {
+        Task task = (Task) listItem.getTag();
+        Intent i = new Intent(this, TaskActivity.class);
+        i.putExtra("name", task.getName());
+        i.putExtra("description", task.getDescription());
+        i.putExtra("dueDate", task.getDueDate().getTime());
+        i.putExtra("completed", task.isCompleted());
+        i.putExtra("id", task.getId());
+        startActivity(i);
     }
 }

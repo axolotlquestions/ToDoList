@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by alexandersmith on 10/11/2017.
@@ -27,11 +29,15 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
         TextView name = (TextView)listItemView.findViewById(R.id.nameView);
         name.setText(currentTask.getName());
         TextView date = (TextView)listItemView.findViewById(R.id.dueDateView);
-        date.setText(currentTask.getDueDate().toString());
-
+        date.setText(toDate(currentTask.getDueDate().getTime()));
         listItemView.setTag(currentTask);
 
         return listItemView;
+    }
+
+    private String toDate(long timestamp) {
+        Date date = new Date (timestamp);
+        return new SimpleDateFormat("dd-MM-yyyy").format(date);
     }
 
 

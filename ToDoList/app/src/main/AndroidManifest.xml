@@ -16,7 +16,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddTaskActivity"
+        <activity
+            android:name=".AddTaskActivity"
+            android:parentActivityName=".ListActivity" />
+        <activity android:name=".TaskActivity"
             android:parentActivityName=".ListActivity"></activity>
     </application>
 

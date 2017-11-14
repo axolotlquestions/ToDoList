@@ -32,7 +32,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + TASKS_TABLE_NAME + "(id INTEGER primary key autoincrement, name TEXT, description TEXT, dueDate Text, completed NUMERIC)");
+        db.execSQL("CREATE TABLE " + TASKS_TABLE_NAME + "(id INTEGER primary key autoincrement, name TEXT, description TEXT, dueDate INTEGER, completed NUMERIC)");
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -45,7 +45,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(TASKS_COLUMN_NAME, name);
         contentValues.put(TASKS_COLUMN_DESCRIPTION, descripton);
-        contentValues.put(TASKS_COLUMN_DATE, dueDate.toString());
+        contentValues.put(TASKS_COLUMN_DATE, dueDate.getTime());
         contentValues.put(TASKS_COLUMN_COMPLETED, completed);
         db.insert(TASKS_TABLE_NAME, null, contentValues);
         return true;
@@ -59,14 +59,21 @@ public class DBHelper extends SQLiteOpenHelper {
             Integer id = cursor.getInt(cursor.getColumnIndex(TASKS_COLUMN_ID));
             String name = cursor.getString(cursor.getColumnIndex(TASKS_COLUMN_NAME));
             String description = cursor.getString(cursor.getColumnIndex(TASKS_COLUMN_DESCRIPTION));
-            String dueDateString = cursor.getString(cursor.getColumnIndex(TASKS_COLUMN_DATE));
+            Long datelong = cursor.getLong(cursor.getColumnIndex(TASKS_COLUMN_DATE));
+            Date dueDate = new Date(datelong);
             boolean completed = cursor.getInt(cursor.getColumnIndex(TASKS_COLUMN_COMPLETED)) > 0;
-            Date dueDate = new SimpleDateFormat("dd/MM/yyyy").parse(dueDateString);
-            Task task = new Task(name, description, dueDate, completed);
+            Task task = new Task(name, description, dueDate, completed, id);
             tasks.add(task);
         }
         cursor.close();
         return tasks;
+    }
+
+    public void delete(Integer id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selection = " id = ?";
+        String[] values = {id.toString()};
+        db.delete(TASKS_TABLE_NAME, selection, values);
     }
 
 

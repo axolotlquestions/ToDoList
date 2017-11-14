@@ -22,7 +22,7 @@ public class Task {
         this.completed = completed;
     }
 
-    public Task(String name, String description, Date dueDate,boolean completed, int id) {
+    public Task(String name, String description, Date dueDate, boolean completed, int id) {
         this.name = name;
         this.description = description;
         this.dueDate = dueDate;
