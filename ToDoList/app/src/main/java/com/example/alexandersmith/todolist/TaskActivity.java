@@ -3,6 +3,9 @@ package com.example.alexandersmith.todolist;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -17,7 +20,6 @@ public class TaskActivity extends AppCompatActivity {
     TextView descriptionView;
     TextView dateview;
     CheckBox CompletedBox;
-    Button deleteButton;
     Bundle extras;
     Boolean completedcheck;
 
@@ -32,23 +34,35 @@ public class TaskActivity extends AppCompatActivity {
         Boolean completed = extras.getBoolean("completed");
 
         nameView = (TextView)findViewById(R.id.NameView);
-        nameView.setText(name);
+        nameView.setText("Task Name: " + name);
         descriptionView = (TextView)findViewById(R.id.DescriptionView);
-        descriptionView.setText(description);
+        descriptionView.setText("Task Description: " + description);
         dateview = (TextView)findViewById(R.id.DateView);
-        dateview.setText(toDate(datelong));
+        dateview.setText("Due date: " + toDate(datelong));
         CompletedBox = (CheckBox)findViewById(R.id.CompletedBox);
         CompletedBox.setChecked(completed);
 
     }
 
-    public void deleteTask(View button){
-        int id = extras.getInt("id");
-        DBHelper dbHelper = new DBHelper(this);
-        dbHelper.delete(id);
-        Intent intent = new Intent(this, ListActivity.class);
-        startActivity(intent);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.activity_task, menu);
+        return true;
     }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        if(item.getItemId() == R.id.delete_task){
+            int id = extras.getInt("id");
+            DBHelper dbHelper = new DBHelper(this);
+            dbHelper.delete(id);
+            Intent intent = new Intent(this, ListActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     private String toDate(long timestamp) {
         Date date = new Date (timestamp);
